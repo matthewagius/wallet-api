@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/matthewagius/wallet-api/api/controller"
@@ -9,7 +10,7 @@ import (
 	"github.com/matthewagius/wallet-api/entity"
 	"github.com/matthewagius/wallet-api/repository"
 	"github.com/matthewagius/wallet-api/usecase/wallet"
-	"github.com/matthewagius/wallet-api/util"
+	util "github.com/matthewagius/wallet-api/util"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -18,8 +19,10 @@ var err error
 var db *gorm.DB
 
 func main() {
+
 	db := initDB()
 	db.AutoMigrate(&entity.Wallet{})
+
 	//TODO add data on load
 	walletRepo := repository.NewWalletMySQL(db)
 	walletService := wallet.NewService(walletRepo)
@@ -28,14 +31,19 @@ func main() {
 	router := gin.Default()
 	api := router.Group("/api")
 	version := api.Group("/v1")
+	auth := version.Group("/auth")
+	{
+		auth.POST("/", controller.Login)
+		auth.POST("/token/refresh", controller.RefreshToken)
+	}
 	controllers := version.Group("/wallets")
 	{
 		controllers.GET("/ping", controller.HealthLiveliness)
-		controllers.GET("/:id/balance", walletController.GetWalletBalance)
-		controllers.POST("/:id/credit", walletController.CreditWallet)
-		controllers.POST("/:id/debit", walletController.DebitWallet)
+		controllers.GET("/:id/balance", TokenAuthMiddleware(), walletController.GetWalletBalance)
+		controllers.POST("/:id/credit", TokenAuthMiddleware(), walletController.CreditWallet)
+		controllers.POST("/:id/debit", TokenAuthMiddleware(), walletController.DebitWallet)
 	}
-	//running
+
 	err := router.Run(config.API_PORT)
 	if err != nil {
 		panic(err)
@@ -51,4 +59,16 @@ func initDB() *gorm.DB {
 	}
 
 	return db
+}
+
+func TokenAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		err := util.TokenValid(c.Request)
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, err.Error())
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
 }

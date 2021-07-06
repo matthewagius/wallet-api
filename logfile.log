@@ -1,0 +1,95 @@
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-05 23:23:03"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/444/balance",
+  "time": "2021-07-05 23:23:18"
+}
+{
+  "level": "error",
+  "msg": "record not found",
+  "time": "2021-07-05 23:23:18"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/balance",
+  "time": "2021-07-06 22:46:16"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/balance",
+  "time": "2021-07-06 22:46:26"
+}
+{
+  "level": "error",
+  "msg": "token contains an invalid number of segments",
+  "time": "2021-07-06 22:46:26"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/balance",
+  "time": "2021-07-06 22:46:36"
+}
+{
+  "level": "error",
+  "msg": "token contains an invalid number of segments",
+  "time": "2021-07-06 22:49:41"
+}
+{
+  "level": "error",
+  "msg": "signature is invalid",
+  "time": "2021-07-06 22:50:07"
+}
+{
+  "level": "error",
+  "msg": "signature is invalid",
+  "time": "2021-07-06 22:50:11"
+}
+{
+  "level": "error",
+  "msg": "signature is invalid",
+  "time": "2021-07-06 22:51:44"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 22:52:28"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 22:52:42"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 22:59:09"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 22:59:12"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 23:02:02"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/credit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 23:02:18"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/balance",
+  "time": "2021-07-06 23:02:34"
+}
+{
+  "level": "info",
+  "msg": "Incoming Request: /api/v1/wallets/1/debit%!(EXTRA string={\"userId\":123,\"currencyCode\":\"eur\",\"amount\":\"100\"})",
+  "time": "2021-07-06 23:12:42"
+}
