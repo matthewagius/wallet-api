@@ -6,8 +6,6 @@ operations on the players wallets. For example, you might receive calls on your 
 the balance of the wallet with id 123, or to credit the wallet with id 456 by 10.00 ?. The
 storage mechanism to use will be MySQL.
 
-## Requirements
-
 ## Built With
 - [Go](https://golang.org/)
 - [Gin](https://github.com/gin-gonic/gin)
