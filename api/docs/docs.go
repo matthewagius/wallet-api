@@ -205,12 +205,6 @@ var doc = `{
             "properties": {
                 "amount": {
                     "type": "number"
-                },
-                "currencyCode": {
-                    "type": "string"
-                },
-                "userId": {
-                    "type": "integer"
                 }
             }
         },

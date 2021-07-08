@@ -3,10 +3,6 @@ definitions:
     properties:
       amount:
         type: number
-      currencyCode:
-        type: string
-      userId:
-        type: integer
     type: object
   model.UserLogin:
     properties:

@@ -22,7 +22,6 @@ var err error
 var db *gorm.DB
 
 // @securityDefinitions.apikey BearerAuth
-// @Param Authorization header string true default(Bearer <Add access token here>)
 // @in header
 // @name Authorization
 func main() {

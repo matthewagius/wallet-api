@@ -115,7 +115,7 @@ func RefreshToken(c *gin.Context) {
 
 func CreateTokens(userEmail string) (*model.TokenDetails, error) {
 	td := &model.TokenDetails{}
-	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
+	td.AtExpires = time.Now().Add(time.Hour * 3).Unix()
 	td.AccessUuid = uuid.NewV4().String()
 
 	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix()

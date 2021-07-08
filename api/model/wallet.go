@@ -16,7 +16,5 @@ type Wallet struct {
 }
 
 type TransactionDetail struct {
-	UserId       uint            `json:"userId"`
-	CurrencyCode string          `json:"currencyCode"`
-	Amount       decimal.Decimal `json:"amount"`
+	Amount decimal.Decimal `json:"amount"`
 }
