@@ -52,6 +52,5 @@ func ValidateDebitTransaction(newAmount decimal.Decimal, data *Wallet) error {
 		return ErrNegativeAmount
 	}
 	data.Amount = result
-
 	return nil
 }

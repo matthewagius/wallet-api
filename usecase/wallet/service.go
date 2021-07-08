@@ -50,6 +50,7 @@ func (s *Service) UpdateWallet(walletid uint, transactionType string, amount dec
 		if err != nil {
 			return nil, err
 		}
+		e.Amount = data.Amount
 	default:
 		return nil, entity.ErrInvalidTransactionType
 	}
