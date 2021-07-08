@@ -1,0 +1,151 @@
+definitions:
+  model.TransactionDetail:
+    properties:
+      amount:
+        type: number
+      currencyCode:
+        type: string
+      userId:
+        type: integer
+    type: object
+  model.UserLogin:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  model.Wallet:
+    properties:
+      amount:
+        type: number
+      createdat:
+        type: string
+      currencyCode:
+        type: string
+      updatedat:
+        type: string
+      userId:
+        type: integer
+      walletid:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/auth/:
+    post:
+      consumes:
+      - application/json
+      description: Login
+      parameters:
+      - description: enter email & password
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserLogin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: get access token and refresh token
+      tags:
+      - Login
+  /api/v1/wallets/{id}/balance:
+    get:
+      consumes:
+      - application/json
+      description: Get Wallet Balance by ID
+      parameters:
+      - description: enter a valid wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Wallet'
+      security:
+      - BearerAuth: []
+      summary: get a wallet's current balance by passing Wallet ID
+      tags:
+      - Wallet
+  /api/v1/wallets/{id}/credit:
+    post:
+      consumes:
+      - application/json
+      description: Credit a Wallet
+      parameters:
+      - description: enter a valid wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: enter transaction details
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.TransactionDetail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - BearerAuth: []
+      summary: add an amount of money to a particular walet
+      tags:
+      - Wallet
+  /api/v1/wallets/{id}/debit:
+    post:
+      consumes:
+      - application/json
+      description: Debit a Wallet
+      parameters:
+      - description: enter a valid wallet ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: enter transaction details
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.TransactionDetail'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      security:
+      - BearerAuth: []
+      summary: deduct an amount of money to a particular walet
+      tags:
+      - Wallet
+  /api/v1/wallets/ping:
+    get:
+      consumes:
+      - application/json
+      description: Health Check to ensure API is working and returning a response
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: Health Check to ensure API is working and returning a response
+      tags:
+      - Health Check
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

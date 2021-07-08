@@ -16,7 +16,7 @@ type Wallet struct {
 	TransactionType string `gorm:"-"`
 }
 
-func UpdateWallet(walletId uint, userId uint, currencyCode string, amount decimal.Decimal, transactionType string, createdAt time.Time) (*Wallet, error) {
+func Initialise(walletId uint, userId uint, currencyCode string, amount decimal.Decimal, transactionType string, createdAt time.Time) (*Wallet, error) {
 	wallet := &Wallet{
 		Id:              walletId,
 		UserId:          userId,
@@ -34,14 +34,24 @@ func UpdateWallet(walletId uint, userId uint, currencyCode string, amount decima
 	return wallet, nil
 }
 
+//check that amount is positive and a positive ID greater than 0 has been passed
 func (w *Wallet) Validate() error {
-
 	if w.Amount.IsNegative() {
 		return ErrNegativeAmount
 	}
 
-	if w.Id == 0 {
+	if w.Id <= 0 {
 		return ErrInvalidEntity
 	}
+	return nil
+}
+
+func ValidateDebitTransaction(newAmount decimal.Decimal, data *Wallet) error {
+	var result = data.Amount.Sub(newAmount)
+	if result.IsNegative() {
+		return ErrNegativeAmount
+	}
+	data.Amount = result
+
 	return nil
 }

@@ -21,6 +21,15 @@ func GetWalletController(service wallet.WalletUseCase) WalletController {
 	return WalletController{WalletService: service}
 }
 
+// @Description Get Wallet Balance by ID
+// @Summary get a wallet's current balance by passing Wallet ID
+// @Tags Wallet
+// @Accept json
+// @Produce json
+// @Param id path int true "enter a valid wallet ID"
+// @Security BearerAuth
+// @Success 200 {object} model.Wallet
+// @Router /api/v1/wallets/{id}/balance [get]
 func (controller *WalletController) GetWalletBalance(c *gin.Context) {
 	standardLogger.IncomingRequest(c.Request.RequestURI)
 	_, err := util.Validate(c.Request)
@@ -50,6 +59,16 @@ func (controller *WalletController) GetWalletBalance(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"wallet": toJson})
 }
 
+// @Description Credit a Wallet
+// @Summary add an amount of money to a particular walet
+// @Tags Wallet
+// @Accept json
+// @Produce json
+// @Param id path int true "enter a valid wallet ID"
+// @Param data body model.TransactionDetail true "enter transaction details"
+// @Success 200
+// @Security BearerAuth
+// @Router /api/v1/wallets/{id}/credit [post]
 func (controller *WalletController) CreditWallet(c *gin.Context) {
 	_, err := util.Validate(c.Request)
 	if err != nil {
@@ -59,7 +78,7 @@ func (controller *WalletController) CreditWallet(c *gin.Context) {
 	}
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	var data model.BodyData
+	var data model.TransactionDetail
 	err = c.BindJSON(&data)
 
 	if err != nil && id == 0 {
@@ -95,6 +114,16 @@ func (controller *WalletController) CreditWallet(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"wallet": toJson})
 }
 
+// @Description Debit a Wallet
+// @Summary deduct an amount of money to a particular walet
+// @Tags Wallet
+// @Accept json
+// @Produce json
+// @Param id path int true "enter a valid wallet ID"
+// @Param data body model.TransactionDetail true "enter transaction details"
+// @Security BearerAuth
+// @Success 200
+// @Router /api/v1/wallets/{id}/debit [post]
 func (controller *WalletController) DebitWallet(c *gin.Context) {
 	_, err := util.Validate(c.Request)
 	if err != nil {
@@ -104,7 +133,7 @@ func (controller *WalletController) DebitWallet(c *gin.Context) {
 	}
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	var data model.BodyData
+	var data model.TransactionDetail
 	err = c.BindJSON(&data)
 
 	if err != nil && id == 0 {

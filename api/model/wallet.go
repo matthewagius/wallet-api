@@ -15,7 +15,7 @@ type Wallet struct {
 	UpdatedAt    time.Time       `json:"updatedat"`
 }
 
-type BodyData struct {
+type TransactionDetail struct {
 	UserId       uint            `json:"userId"`
 	CurrencyCode string          `json:"currencyCode"`
 	Amount       decimal.Decimal `json:"amount"`

@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:latest
+    hostname: mysql
+    restart: always 
+    environment:
+      MYSQL_ROOT_PASSWORD: r00tp455w0rd!
+      MYSQL_DATABASE: WalletAPI
+      MYSQL_PASSWORD: r00tp455w0rd!
+    ports:
+      - "3307:3306"
+    container_name: wallet-api-mysql
+    
+  

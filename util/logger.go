@@ -46,7 +46,7 @@ func NewLogger() *StandardLogger {
 
 var (
 	incommingRequest         = Event{1, "Incoming Request: %s"}
-	incommingRequestWithBody = Event{2, "Incoming Request: %s and %s"}
+	incommingRequestWithBody = Event{2, "Incoming Body: %s "}
 )
 
 func (l *StandardLogger) IncomingRequest(requestUri string) {
@@ -54,5 +54,6 @@ func (l *StandardLogger) IncomingRequest(requestUri string) {
 }
 
 func (l *StandardLogger) IncomingRequestWithBody(requestUri string, requestBody string) {
-	l.Infof(incommingRequest.message, requestUri, requestBody)
+	l.Infof(incommingRequest.message, requestUri)
+	l.Infof(incommingRequestWithBody.message, requestBody)
 }

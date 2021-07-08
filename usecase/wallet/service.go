@@ -36,7 +36,7 @@ func (s *Service) UpdateWallet(walletid uint, transactionType string, amount dec
 		return nil, err
 	}
 
-	e, err := entity.UpdateWallet(data.Id, data.UserId, data.CurrencyCode, amount, transactionType, data.CreatedAt)
+	e, err := entity.Initialise(data.Id, data.UserId, data.CurrencyCode, amount, transactionType, data.CreatedAt)
 
 	if err != nil {
 		return nil, err
@@ -46,12 +46,12 @@ func (s *Service) UpdateWallet(walletid uint, transactionType string, amount dec
 	case "Credit":
 		e.Amount = data.Amount.Add(e.Amount)
 	case "Debit":
-		var result = data.Amount.Sub(e.Amount)
-		if result.IsNegative() {
-			return nil, entity.ErrNegativeAmount
+		err := entity.ValidateDebitTransaction(amount, data)
+		if err != nil {
+			return nil, err
 		}
-		e.Amount = result
-
+	default:
+		return nil, entity.ErrInvalidTransactionType
 	}
 	e.UpdatedAt = time.Now()
 	return e, s.repo.Update(e)

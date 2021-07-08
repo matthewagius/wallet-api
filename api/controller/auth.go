@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -14,13 +13,20 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
-//A sample use
+//A sample user
 var user = model.UserLogin{
-	Id:       1,
 	Email:    "user.wallet@email.com",
 	Password: "gue55myp4ss",
 }
 
+// @Description Login
+// @Summary get access token and refresh token
+// @Tags Login
+// @Accept json
+// @Produce json
+// @Param data body model.UserLogin true "enter email & password"
+// @Success 200
+// @Router /api/v1/auth/ [post]
 func Login(c *gin.Context) {
 	var u model.UserLogin
 
@@ -35,7 +41,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	cts, err := CreateTokens(user.Id)
+	cts, err := CreateTokens(user.Email)
 
 	tokens := map[string]string{
 		"access_token":  cts.AccessToken,
@@ -46,7 +52,7 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, err.Error())
 		return
 	}
-	c.JSON(http.StatusOK, tokens)
+	c.JSON(http.StatusOK, gin.H{"tokens": tokens})
 }
 
 func RefreshToken(c *gin.Context) {
@@ -83,14 +89,14 @@ func RefreshToken(c *gin.Context) {
 			c.JSON(http.StatusUnprocessableEntity, err)
 			return
 		}
-		userId, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		userEmail := claims["user_email"].(string)
 		if err != nil {
 			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
 			return
 		}
 
 		//Create new pairs of refresh and access tokens
-		ts, createErr := CreateTokens(userId)
+		ts, createErr := CreateTokens(userEmail)
 		if createErr != nil {
 			c.JSON(http.StatusForbidden, createErr.Error())
 			return
@@ -107,7 +113,7 @@ func RefreshToken(c *gin.Context) {
 	}
 }
 
-func CreateTokens(userId uint64) (*model.TokenDetails, error) {
+func CreateTokens(userEmail string) (*model.TokenDetails, error) {
 	td := &model.TokenDetails{}
 	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
 	td.AccessUuid = uuid.NewV4().String()
@@ -121,7 +127,7 @@ func CreateTokens(userId uint64) (*model.TokenDetails, error) {
 	atClaims := jwt.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["access_uuid"] = td.AccessUuid
-	atClaims["user_id"] = userId
+	atClaims["user_email"] = userEmail
 	atClaims["exp"] = td.AtExpires
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 
@@ -135,7 +141,7 @@ func CreateTokens(userId uint64) (*model.TokenDetails, error) {
 	os.Setenv("REFRESH_SECRET", "mcmvmkmsdnfsdmfdsjf") //this should be in an env file
 	rtClaims := jwt.MapClaims{}
 	rtClaims["refresh_uuid"] = td.RefreshUuid
-	rtClaims["user_id"] = userId
+	rtClaims["user_email"] = userEmail
 	rtClaims["exp"] = td.RtExpires
 	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
 	td.RefreshToken, err = rt.SignedString([]byte(os.Getenv("REFRESH_SECRET")))

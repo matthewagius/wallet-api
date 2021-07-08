@@ -1,10 +1,10 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,7 +12,7 @@ import (
 
 type AccessDetails struct {
 	AccessUuid string
-	UserId     uint64
+	UserEmail  string
 }
 
 func ExtractToken(r *http.Request) string {
@@ -30,7 +30,7 @@ func VerifyToken(r *http.Request) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, nil // standardLogger.Errorf("unexpected signing method: %s", token.Header["alg"])
+			return nil, errors.New(fmt.Sprint("unexpected signing method: %s", token.Header["alg"]))
 		}
 		return []byte(os.Getenv("ACCESS_SECRET")), nil
 	})
@@ -62,13 +62,13 @@ func Validate(r *http.Request) (*AccessDetails, error) {
 		if !ok {
 			return nil, err
 		}
-		userId, err := strconv.ParseUint(fmt.Sprintf("%.f", claims["user_id"]), 10, 64)
+		userEmail := claims["user_email"].(string)
 		if err != nil {
 			return nil, err
 		}
 		return &AccessDetails{
 			AccessUuid: accessUuid,
-			UserId:     userId,
+			UserEmail:  userEmail,
 		}, nil
 	}
 	return nil, err
