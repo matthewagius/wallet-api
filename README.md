@@ -11,13 +11,13 @@ storage mechanism to use will be MySQL.
 ## Built With
 - [Go](https://golang.org/)
 - [Gin](https://github.com/gin-gonic/gin)
-- [MySQL] (https://github.com/go-gorm/gorm)
-- [JWT] (https://github.com/dgrijalva/jwt-go)
-- [Numbers] (https://github.com/shopspring/decimal)
-- [Logger] (https://github.com/sirupsen/logrus)
-- [Assert] (https://github.com/stretchr/testify/assert)
-- [Swaggo] (https://github.com/swaggo/gin-swagger)
-- [Docker] (https://www.docker.com)
+- [MySQL](https://github.com/go-gorm/gorm)
+- [JWT](https://github.com/dgrijalva/jwt-go)
+- [Numbers](https://github.com/shopspring/decimal)
+- [Logger](https://github.com/sirupsen/logrus)
+- [Assert](https://github.com/stretchr/testify/assert)
+- [Swaggo](https://github.com/swaggo/gin-swagger)
+- [Docker](https://www.docker.com)
 
 ## Prerequisites
 
@@ -36,13 +36,13 @@ To run the API:
 - browse to: http://localhost:8080/swagger/index.html - full api documentation can be viewed here
 
 ## Browse the API using Swagger UI:
-- execute api/v1/auth endpoint. Please use the credentials below
+- execute api/v1/auth endpoint. Please use the following credentials 
 {
   "email": "user.wallet@email.com",
   "password": "gue55myp4ss"
 }
 - once executed the api will return an access token. Copy this access token
 - Click on the Authorize button at the top right corner
-- type in "Bearer <your copied access token>" and click on Authorize
+- type in Bearer <your copied access token> and click on Authorize
 
 You may now use swagger to browse the API. 
