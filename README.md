@@ -43,6 +43,6 @@ To run the API:
 }
 - once executed the api will return an access token. Copy this access token
 - Click on the Authorize button at the top right corner
-- type in Bearer <your copied access token> and click on Authorize
+- type in Bearer followed by your copied access token and click on Authorize
 
 You may now use swagger to browse the API. 
